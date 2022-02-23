@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="MedAly">
+
+        <title>MyNews</title>
+
+        <link rel="stylesheet" href="fontawesome/css/all.css">
+		<link rel="stylesheet" href="fontawesome/css/fontawesome.css">
+		<link rel="stylesheet" href="fontawesome/css/solid.css">
+		<link rel="stylesheet" href="fontawesome/css/brands.css">
+		<link rel="stylesheet" href="fontawesome/css/regular.css">
+		<link rel="stylesheet" href="fontawesome/css/v4-shims.css">
+		<link rel="stylesheet" href="fontawesome/css/svg-with-js.css">
+
+        <link rel="stylesheet" href="style.css">
+        <script src="js/jquery.js"></script>
+        <script>
+            
+        </script>
+    </head>
+    
+        <header>
+            <span class="fa fa-newspaper-o fa-2x"> </span>
+            <h1> MyNews</h1>
+        </header>
+        <aside>
+            <h2> Settings : </h2>
+            <hr>
+            Keywords : 
+            <input type="text" id="keywords">
+            From : 
+            <input type="date" id="fromDate">
+            To : 
+            <input type="date" id="toDate">
+            Everything/Top topics :
+            <select id="evertop">
+                <option value="everything">Everything</option>
+                <option value="top-headlines">Top topics</option>
+            </select>
+            Publishers :
+            <input type="text" id="publ">
+            <hr>
+            <button id="btnSearch">Get News</button>
+        </aside>
+        <article>
+            
+        </article>
+        <script>
+            //url='https://newsapi.org/v2/everything?q=apple&from=2022-02-08&to=2022-02-08&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a';
+            $(document).ready(function(){
+                $("#btnSearch").click(function(){
+                    //alert(5)
+                    console.log("Start getting news ...")
+                    keywords = $("#keywords").val()
+                    fromDate = $("#fromDate").val()
+                    toDate = $("#toDate").val()
+                    publ = $("#publ").val()
+                    evertop = $( "#evertop" ).val();
+
+                    if(keywords != ""){
+                        $("article").html("")
+                        
+                        if(fromDate == ""){
+                            fromDate = (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1 ) +"-" + (new Date()).getDate()
+                        }
+
+                        if(toDate == ""){
+                            toDate = (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1 ) +"-" + (new Date()).getDate()
+                        }
+
+                        getNews(keywords,fromDate,toDate,evertop)
+                    }
+                })
+                
+            })
+
+            function getNews(q,fromDate,toDate,type="everything",lang="en"){
+                $.ajax({ 
+                    url: "http://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
+                }).then(function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.articles.length; i++) {
+                        $("article").append("<div id=\"news-"+i+"\" class=\"news-container\"></div>")
+                        $("#news-"+i).append(
+                            "<div class=\"writing-container\">"+
+                            "<h3 class=\"news-title\">" +
+                                data.articles[i].title +
+                            "</h3>" +
+                            "<p class=\"news-description\">" +
+                                data.articles[i].description +
+                            "</p></div>"+
+                            "<img class=\"news-image\" src= \"" +
+                                data.articles[i].urlToImage +
+                            '" alt="image is not available">'+
+                            "<div class=\"more\">"+
+                            "Author : " + data.articles[i].author+"<br>"+
+                            "Publiched at : " + data.articles[i].publishedAt+"<br>"+
+                            "URL : <a href=\""+data.articles[i].url+"\">"+data.articles[i].url+"</div>"+
+                            "</div>" 
+                        );
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
