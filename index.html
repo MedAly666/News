@@ -12,18 +12,15 @@
         <title>MyNews</title>
 
         <link rel="stylesheet" href="fontawesome/css/all.css">
-		<link rel="stylesheet" href="fontawesome/css/fontawesome.css">
-		<link rel="stylesheet" href="fontawesome/css/solid.css">
-		<link rel="stylesheet" href="fontawesome/css/brands.css">
-		<link rel="stylesheet" href="fontawesome/css/regular.css">
-		<link rel="stylesheet" href="fontawesome/css/v4-shims.css">
-		<link rel="stylesheet" href="fontawesome/css/svg-with-js.css">
+	<link rel="stylesheet" href="fontawesome/css/fontawesome.css">
+	<link rel="stylesheet" href="fontawesome/css/solid.css">
+	<link rel="stylesheet" href="fontawesome/css/brands.css">
+	<link rel="stylesheet" href="fontawesome/css/regular.css">
+	<link rel="stylesheet" href="fontawesome/css/v4-shims.css">
+	<link rel="stylesheet" href="fontawesome/css/svg-with-js.css">
 
         <link rel="stylesheet" href="style.css">
         <script src="js/jquery.js"></script>
-        <script>
-            
-        </script>
     </head>
     
         <header>
@@ -56,7 +53,7 @@
             //url='https://newsapi.org/v2/everything?q=apple&from=2022-02-08&to=2022-02-08&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a';
             $(document).ready(function(){
                 $("#btnSearch").click(function(){
-                    alert(5)
+                    //alert(5)
                     console.log("Start getting news ...")
                     keywords = $("#keywords").val()
                     fromDate = $("#fromDate").val()
@@ -83,7 +80,7 @@
 
             function getNews(q,fromDate,toDate,type="everything",lang="en"){
                 $.ajax({ 
-                    url: "https://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
+                    url: "http://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
                 }).then(function (data) {
                     console.log(data);
                     for (var i = 0; i < data.articles.length; i++) {
