@@ -5,33 +5,40 @@
         <meta http-equiv="Content-Type" content="text/html">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="MedAly666@github">
-	<meta name="Description" Content="All the news around the world in one website . ">
-	<meta name="Keywords" Content="news,all news,bbc,rt,reuters,nytimes,new york times">
+	    <meta name="Description" Content="All the news around the world in one website . ">
+	    <meta name="Keywords" Content="news,all news,bbc,rt,reuters,nytimes,new york times,CNN">
 
-
-        <title>MyNews</title>
+        <title>AllNews</title>
 
         <link rel="stylesheet" href="fontawesome/css/all.css">
-	<link rel="stylesheet" href="fontawesome/css/fontawesome.css">
-	<link rel="stylesheet" href="fontawesome/css/solid.css">
-	<link rel="stylesheet" href="fontawesome/css/brands.css">
-	<link rel="stylesheet" href="fontawesome/css/regular.css">
-	<link rel="stylesheet" href="fontawesome/css/v4-shims.css">
-	<link rel="stylesheet" href="fontawesome/css/svg-with-js.css">
+		<link rel="stylesheet" href="fontawesome/css/fontawesome.css">
+		<link rel="stylesheet" href="fontawesome/css/solid.css">
+		<link rel="stylesheet" href="fontawesome/css/brands.css">
+		<link rel="stylesheet" href="fontawesome/css/regular.css">
+		<link rel="stylesheet" href="fontawesome/css/v4-shims.css">
+		<link rel="stylesheet" href="fontawesome/css/svg-with-js.css">
 
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css?v=1">
         <script src="js/jquery.js"></script>
+        <script>
+            
+        </script>
     </head>
     
         <header>
             <span class="fa fa-newspaper-o fa-2x"> </span>
-            <h1> MyNews</h1>
+            <h1> AllNews</h1>
+            <div class="search-container">
+                <input type="text" id="keywords" placeholder="Search">
+                <button id="btnSearch"><i class="fa fa-search fa-2x"></i></button>
+            </div>
+
+            <button id="btnSet" class="btn-settings"><label class="fa fa-cog fa-2x"></label></button>
         </header>
-        <aside>
+        <dialog id="dlgSet">
             <h2> Settings : </h2>
+            <button id="btnClose"><span class="fa fa-remove"></span></button>
             <hr>
-            Keywords : 
-            <input type="text" id="keywords">
             From : 
             <input type="date" id="fromDate">
             To : 
@@ -43,15 +50,23 @@
             </select>
             Publishers :
             <input type="text" id="publ">
-            <hr>
-            <button id="btnSearch">Get News</button>
-        </aside>
+        </dialog>
         <article>
             
         </article>
+        <footer>
+
+        </footer>
+            <p>This website is for developement and testing for personal project .</p>
         <script>
+            function nowDate(){
+                return (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1 ) +"-" + (new Date()).getDate() ;
+            }
+
             //url='https://newsapi.org/v2/everything?q=apple&from=2022-02-08&to=2022-02-08&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a';
             $(document).ready(function(){
+                getNews("",nowDate(),nowDate(),"top-headlines");
+
                 $("#btnSearch").click(function(){
                     //alert(5)
                     console.log("Start getting news ...")
@@ -65,34 +80,45 @@
                         $("article").html("")
                         
                         if(fromDate == ""){
-                            fromDate = (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1 ) +"-" + (new Date()).getDate()
+                            fromDate = nowDate()
                         }
 
                         if(toDate == ""){
-                            toDate = (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1 ) +"-" + (new Date()).getDate()
+                            toDate = nowDate();
                         }
 
                         getNews(keywords,fromDate,toDate,evertop)
                     }
                 })
+
+
+                $("#btnSet").click(function(){
+                    //alert(654686)
+                    $("#dlgSet").attr("open","open")
+                })
+
+                $("#btnClose").click(function(){
+                    //falert(654686)
+                    $("#dlgSet").removeAttr("open")
+                })
+
                 
             })
 
-            function getNews(q,fromDate,toDate,type="everything",lang="en"){
+            function getNews(q,fromDate=nowDate(),toDate=nowDate(),type="everything",lang="en"){
                 $.ajax({ 
-                    url: "https://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
+                    url: "http://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
                 }).then(function (data) {
                     console.log(data);
-                    for (var i = 0; i < data.articles.length; i++) {
+                    for (var i = 0; i < 10 /*data.articles.length*/; i++) {
                         $("article").append("<div id=\"news-"+i+"\" class=\"news-container\"></div>")
                         $("#news-"+i).append(
-                            "<div class=\"writing-container\">"+
                             "<h3 class=\"news-title\">" +
                                 data.articles[i].title +
                             "</h3>" +
                             "<p class=\"news-description\">" +
                                 data.articles[i].description +
-                            "</p></div>"+
+                            "</p>"+
                             "<img class=\"news-image\" src= \"" +
                                 data.articles[i].urlToImage +
                             '" alt="image is not available">'+
