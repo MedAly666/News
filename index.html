@@ -107,7 +107,7 @@
 
             function getNews(q,fromDate=nowDate(),toDate=nowDate(),type="everything",lang="en"){
                 $.ajax({ 
-                    url: "https://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
+                    url: "http://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
                 }).then(function (data) {
                     console.log(data);
                     for (var i = 0; i < 10 /*data.articles.length*/; i++) {
