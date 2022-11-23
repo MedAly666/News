@@ -63,7 +63,7 @@
                 return (new Date()).getFullYear() + "-" + ((new Date()).getMonth() + 1 ) +"-" + (new Date()).getDate() ;
             }
 
-            //url='https://newsapi.org/v2/everything?q=apple&from=2022-02-08&to=2022-02-08&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a';
+            //url='https://newsapi.org/v2/everything?q=apple&from=2022-02-08&to=2022-02-08&sortBy=popularity&apiKey=""';
             $(document).ready(function(){
                 getNews("",nowDate(),nowDate(),"top-headlines");
 
@@ -107,7 +107,7 @@
 
             function getNews(q,fromDate=nowDate(),toDate=nowDate(),type="everything",lang="en"){
                 $.ajax({ 
-                    url: "http://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818c844176b5bad4eced4cc14a",
+                    url: "http://newsapi.org/v2/"+type+"?q="+q+"&language="+lang+"&from="+fromDate+"&to="+toDate+"8&sortBy=popularity&apiKey=afe291818",
                 }).then(function (data) {
                     console.log(data);
                     for (var i = 0; i < 10 /*data.articles.length*/; i++) {
